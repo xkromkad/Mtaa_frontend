@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableHighlight} from "react-native";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 function Header() {
     return(
-        <SafeAreaView>
-            <View style={styles.header}>
+        <SafeAreaView style={styles.header} edges={['top', 'left', 'right']}>
                 <View style={styles.row}>
                     <Text style={styles.title}>Doucma</Text>
                     <Image  source={require("doucma/assets/images/logo.png")}
@@ -16,7 +16,6 @@ function Header() {
                             style={styles.search}/>
                     </TouchableHighlight>
                 </View>
-            </View>
         </SafeAreaView>
     )
 }
@@ -30,7 +29,6 @@ const styles = StyleSheet.create({
     },
     row: {
         width: '100%',
-        marginTop: 40,
         marginHorizontal: 15,
         marginVertical: 15,
         flexDirection: "row",

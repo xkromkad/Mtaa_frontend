@@ -16,16 +16,16 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Doucma</Text>
+        <Text>Email</Text>
         <TextInput
           value={this.state.email}
           onChangeText={(email) => this.setState({ email })}
-          placeholder={'Email'}
           style={styles.input}
         />
+        <Text>Heslo</Text>
         <TextInput
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
-          placeholder={'Heslo'}
           secureTextEntry={true}
           style={styles.input}
         />   

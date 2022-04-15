@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 
+
 export default class Register extends Component {
   constructor(props) {
     super(props);
@@ -15,39 +16,59 @@ export default class Register extends Component {
     };
   }
 
+  async send() {
+    try {
+      let res = await fetch('http://192.168.0.143:8000/registracia', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              'req': {'name': this.state.firstname,
+            'surname': this.state.surname, 'email': this.state.email, 'password': this.state.password},
+            }),
+          });
+      res = res.headers;
+      console.log(res)
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Doucma</Text>
+        <Text>Meno</Text>
         <TextInput
           value={this.state.name}
           onChangeText={(firstname) => this.setState({ firstname })}
-          placeholder={'Meno'}
           style={styles.input}
         />
+        <Text>Priezvisko</Text>
         <TextInput
           value={this.state.surname}
           onChangeText={(surname) => this.setState({ surname })}
-          placeholder={'Priezvisko'}
           style={styles.input}
         />
+        <Text>Email</Text>
         <TextInput
           value={this.state.email}
           onChangeText={(email) => this.setState({ email })}
-          placeholder={'Email'}
           style={styles.input}
         />
+        <Text>Heslo</Text>
         <TextInput
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
-          placeholder={'Heslo'}
           secureTextEntry={true}
           style={styles.input}
         />
+        <Text>Zopakujte heslo</Text>
         <TextInput
           value={this.state.rpassword}
           onChangeText={(rpassword) => this.setState({ rpassword })}
-          label="Zopakuj heslo"
           secureTextEntry={true}
           style={styles.input}
           
@@ -56,7 +77,8 @@ export default class Register extends Component {
         <Button
           title={'Zaregistrovať'}
           style={styles.input}
-          onPress={() => this.props.navigation.navigate('Home')}
+          onPress={() => this.send()}
+          //onPress={() => this.props.navigation.navigate('Home')}
         />
          <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')} style={styles.alreadyReg}>
           <Text>Už ste zaregistrovaný?</Text>

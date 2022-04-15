@@ -8,7 +8,7 @@ function Footer() {
     <SafeAreaView>
       <View style={styles.footer}>
         <View style={styles.row}>
-          <TouchableOpacity underlayColor="white" style={styles.icon} onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity underlayColor="white" style={styles.icon} onPress={() => navigation.push('Home')}>
             <Image
               source={require("doucma/assets/images/home.png")}
               resizeMode="contain"

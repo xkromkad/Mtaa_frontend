@@ -3,22 +3,22 @@ import { StyleSheet, View, Image, Text, Button, TouchableOpacity, ScrollView, Sa
 import { useNavigation } from '@react-navigation/native';
 
 
-function Feed() {
+const Feed = (props) => {
     const navigation = useNavigation(); 
     return(
         <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Detail')}>
             <Text style={styles.title}>
-                Nadpis
+                {props.title}
             </Text>
-            <Text style={styles.description}>
-                Opis toho, čo kto ponuka, čo kto doučuje a tak.
+            <Text numberOfLines={3} style={styles.description}>
+                {props.description}
             </Text>
             <View style={styles.meta}>
                 <Text style={styles.meta_desc}>
                     Počet súborov: 2
                 </Text>
                 <Text style={styles.meta_desc}>
-                    Autor: Alenka
+                    Autor: {props.name} {props.surname}
                 </Text>
             </View>
         </TouchableOpacity>
