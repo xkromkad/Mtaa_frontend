@@ -1,59 +1,50 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView, TextInput, Button } from "react-native";
-import Footer from "./nav/footer";
-import Header from "./nav/header";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+import * as DocumentPicker from "expo-document-picker";
 
-export default function Add() {
-    return(
-        <View style={{flex: 1}}>
-            <Header/>
-            <View style={styles.container}>
-                <Text style={styles.title}>
-                    Názov
-                </Text>
-                <TextInput style={styles.input}/>
-                <Text style={styles.title}>
-                    Popis
-                </Text>
-                <TextInput style={styles.input}/>
-                <View style={styles.row}>
-                    <Button title="Uverejniť"/>
-                    <TouchableOpacity>
-                        <Image source={require("doucma/assets/images/bin.png")}
-                        resizeMode="contain"
-                        style={styles.button}/>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <Footer/>
-        </View>
-    )
-}
+const UploadFile = () => {
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+    console.log(result.uri);
+    console.log(result);
+  };
+
+  return (
+    <View style={styles.background}>
+      <Text style={styles.file}>Upload CSV File</Text>
+      <View style={styles.button}>
+        <TouchableOpacity>
+          <Button
+            title="upload your file"
+            color="black"
+            onPress={pickDocument}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 30,
-        marginVertical: 15
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        marginHorizontal: 5
-    },
-    input: {
-        width: '80%',
-        height: 60,
-        padding: 10,
-        borderWidth: 1,
-        borderRadius: 50,
-        borderColor: 'black',
-        marginBottom: 20,
-      },
-      button: {
-        marginHorizontal: 20,
-      },
-      row: {
-        flexDirection: "row",
-        justifyContent: 'center',
-      }
-})
+  background: {
+    backgroundColor:
+      "radial-gradient(ellipse at left bottom,    rgb(163, 237, 255) 0%,    rgba(57, 232, 255, 0.9) 59%,    rgba(48, 223, 214, 0.9) 100% )",
+  },
+  file: {
+    color: "black",
+    marginHorizontal: 145,
+  },
+  button: {
+    marginHorizontal: 60,
+  },
+});
+
+export default UploadFile;
+
