@@ -28,14 +28,13 @@ export default function Home() {
   return (
     <View style={{ flex: 1 }}>
       <Header/>
-      <Text>Ahoj</Text>
       <View style={{ flex: 1, marginBottom: 70}}>
         {isLoading ? <ActivityIndicator/> : (
           <FlatList
             data={data}
             keyExtractor={({ id }, index) => id}
             renderItem={({ item }) => (
-              <Feed title={item.title} description={item.description} name={item.name} surname={item.surname}/>
+              <Feed title={item.title} description={item.description} name={item.name} surname={item.surname} id={item.id}/>
             )}
           />
         )}
