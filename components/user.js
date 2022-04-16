@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     butt:{
+        paddingTop:20,
         position:"relative",
         alignItems: 'center',
         justifyContent: 'center',

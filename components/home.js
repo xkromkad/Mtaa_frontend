@@ -11,7 +11,7 @@ export default function Home() {
 
   const getFeed = async () => {
      try {
-      const response = await fetch('http://192.168.0.143:8000/inzeraty');
+      const response = await fetch('http://192.168.0.109:8000/inzeraty');
       const json = await response.json();
       setData(json);
     } catch (error) {

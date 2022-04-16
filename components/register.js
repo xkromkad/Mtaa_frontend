@@ -6,19 +6,29 @@ import * as asyncStorage from './asyncStorage'
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    
+   
     this.state = {
       firstname: '',
       surname: '',
       email: '',
       password: '',
-      rpassword: ''
+      rpassword: '',
+      error:'',
     };
   }
 
   async send() {
+    let good = true;
+    if (this.state.password !=  this.state.rpassword  ) {
+      this.setState({error: "Hesla nie su rovnake!"});
+      good = false;
+    }
+
+  if(good)
+   {
+   
     try {
-      let res = await fetch('http://192.168.0.143:8000/registracia', {
+      let res = await fetch('http://192.168.0.109:8000/registracia', {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -37,11 +47,28 @@ export default class Register extends Component {
         let data = await asyncStorage.getData()
         console.log(data[0])
       }
+
     } catch(e) {
+     
       console.error(e);
     }
   }
-
+    else
+    {
+      Alert.alert(
+        "Chyba",
+        "Heslá sa musia opakovať!",
+        [
+         
+          { text: "OK"}
+        ]
+      );
+    }
+  }
+  /*PassValid = async () => {
+   
+   
+  }*/
   render() {
     return (
       <View style={styles.container}>
