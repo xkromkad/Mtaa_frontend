@@ -6,17 +6,32 @@ import * as asyncStorage from './asyncStorage'
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    
+   
     this.state = {
       firstname: '',
       surname: '',
       email: '',
       password: '',
-      rpassword: ''
+      rpassword: '',
+      error:'',
     };
   }
 
   async send() {
+    let good = true;
+    let good2 = true;
+    if (this.state.password !=  this.state.rpassword  ) {
+      this.setState({error: "Hesla nie su rovnake!"});
+      good = false;
+    }
+    else if(this.state.firstname.length == 0 || this.state.firstname.length == 0 ||  this.state.password.length == 0 ||  this.state.rpassword.length == 0)
+    {
+      good2 = false;
+    }
+
+  if(good && good2)
+   {
+   
     try {
       let res = await fetch('http://192.168.0.143:8000/registracia', {
             method: 'POST',
@@ -37,11 +52,58 @@ export default class Register extends Component {
         let data = await asyncStorage.getData()
         console.log(data[0])
       }
-    } catch(e) {
-      console.error(e);
+      else
+      {
+        console.log(stat);
+        Alert.alert(
+          "Chyba",
+          "Zlé zadané udaje alebo email sa už používa",
+          [
+           
+            { text: "OK"}
+          ]
+        );
+      }
+      }
+     catch(e) {
+     
+      Alert.alert(
+        "Chyba",
+        [
+         
+          { text: "OK"}
+        ]
+      );
     }
   }
-
+    else if(good2)
+    {
+      Alert.alert(
+        "Chyba",
+        "Heslá sa musia opakovať!",
+        [
+         
+          { text: "OK"}
+        ]
+      );
+    }
+    else
+    {
+      Alert.alert(
+        "Chyba",
+        "Vypln vsetky polia!",
+        [
+         
+          { text: "OK"}
+        ]
+      );
+    }
+    }
+  
+  /*PassValid = async () => {
+   
+   
+  }*/
   render() {
     return (
       <View style={styles.container}>
@@ -49,32 +111,32 @@ export default class Register extends Component {
         <Image source={require("doucma/assets/images/logo.png")}
                                     resizeMode="contain"
                                     style={styles.logo}/>
-        <Text>Meno</Text>
+        <Text style={styles.txt}>Meno</Text>
         <TextInput
           value={this.state.name}
           onChangeText={(firstname) => this.setState({ firstname })}
           style={styles.input}
         />
-        <Text>Priezvisko</Text>
+        <Text style={styles.txt} >Priezvisko</Text>
         <TextInput
           value={this.state.surname}
           onChangeText={(surname) => this.setState({ surname })}
           style={styles.input}
         />
-        <Text>Email</Text>
+        <Text style={styles.txt}>Email</Text>
         <TextInput
           value={this.state.email}
           onChangeText={(email) => this.setState({ email })}
           style={styles.input}
         />
-        <Text>Heslo</Text>
+        <Text style={styles.txt}>Heslo</Text>
         <TextInput
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
           secureTextEntry={true}
           style={styles.input}
         />
-        <Text>Zopakujte heslo</Text>
+        <Text style={styles.txt}>Zopakujte heslo</Text>
         <TextInput
           value={this.state.rpassword}
           onChangeText={(rpassword) => this.setState({ rpassword })}
@@ -113,6 +175,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: 'black',
     marginBottom: 20,
+    marginTop: 10,
+  },
+  txt: {
+    fontWeight: 'bold'
   },
   title: {
     fontSize: 40,
