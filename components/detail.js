@@ -13,7 +13,7 @@ export default function Detail({ route }) {
 
   const getDetails = async () => { // este token treba dat do headeru a potom upravit view
      try {
-      const response = await fetch('http://192.168.0.143:8000/inzeraty/'+itemId);
+      const response = await fetch('http://192.168.0.109:8000/inzeraty/'+itemId);
       const json = await response.json();
       console.log(json)
       setData(json);
