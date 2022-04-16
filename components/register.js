@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Button, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Alert, Button, Image, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as asyncStorage from './asyncStorage'
 
 
@@ -46,6 +46,9 @@ export default class Register extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Doucma</Text>
+        <Image source={require("doucma/assets/images/logo.png")}
+                                    resizeMode="contain"
+                                    style={styles.logo}/>
         <Text>Meno</Text>
         <TextInput
           value={this.state.name}
@@ -100,27 +103,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: "rgba(123,248,165,1)",
+    
   },
   input: {
     width: '80%',
     height: 60,
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 20,
     borderColor: 'black',
     marginBottom: 20,
   },
   title: {
     fontSize: 40,
-    marginBottom: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
   alreadyReg: {
-    
     marginTop: 30,
     borderRadius: 32,
     borderWidth: 1,
     padding: 5,
     borderColor: 'rgb(34, 186, 250)',
     backgroundColor: 'rgb(34, 186, 250)',
+  },
+  logo:{
+      width:40,
+      marginHorizontal: '45%',
   }
 });

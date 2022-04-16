@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import Header from "./nav/header";
@@ -6,6 +6,33 @@ import Footer from "./nav/footer";
 
 export default function Detail() {
     const navigation = useNavigation(); 
+    
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+  /*const getDetails = async () => { // este token treba dat do headeru a potom upravit view
+     try {
+      const response = await fetch('http://192.168.0.143:8000/inzeraty/1',
+      { method: 'GET',
+        headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },});
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getDetails();
+    }, []);
+
+   */
+    
     return(
         <View style={{flex: 1}}>
             <Header/>
