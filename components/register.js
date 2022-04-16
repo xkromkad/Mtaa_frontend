@@ -28,7 +28,7 @@ export default class Register extends Component {
    {
    
     try {
-      let res = await fetch('http://192.168.0.109:8000/registracia', {
+      let res = await fetch('http://192.168.0.143:8000/registracia', {
             method: 'POST',
             headers: {
               Accept: 'application/json',
