@@ -63,6 +63,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   alreadyLog: {
-    marginTop: 20
+    marginTop: 30,
+    borderRadius: 32,
+    borderWidth: 1,
+    padding: 5,
+    borderColor: 'rgb(34, 186, 250)',
+    backgroundColor: 'rgb(34, 186, 250)',
   }
 });
