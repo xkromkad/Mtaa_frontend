@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import Header from "./nav/header";
 import Footer from "./nav/footer";
@@ -10,45 +10,72 @@ export default function Detail({ route }) {
     
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [file, setFile] = useState([]);
 
-  const getDetails = async () => { // este token treba dat do headeru a potom upravit view
+  const getDetails = async () => {
      try {
       const response = await fetch('http://192.168.0.143:8000/inzeraty/'+itemId);
       const json = await response.json();
-      console.log(json)
-      setData(json);
+      setData(JSON.parse(json.data));
+      setFile(JSON.parse(json.file_arr));
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   }
-
+/*
+  const listItems = async () => file.file_arr.map((item) =>
+    <View>
+        <Text style={styles.fileName} key={item}>{item}</Text>
+        <Image source={require("doucma/assets/images/file.png")}
+            resizeMode="contain"
+            style={styles.icon}/>
+    </View>
+);
+*/
   useEffect(() => {
     getDetails();
     }, []);
 
-   
-    
+    function fileList() {
+        if(file.file_arr.length > 0) {
+        return file.file_arr.map((item) => {
+          return (
+            <View  key={item}>
+            <Text style={styles.fileName}>{item}</Text>
+            <Image source={require("doucma/assets/images/file.png")}
+                resizeMode="contain"
+                style={styles.icon}/>
+             </View>
+          )
+        }) }
+        else {
+            return(
+                <Text>Neexistujú žiadne súbory</Text>
+            )
+        }
+    }
+
+
     return(
         <View style={{flex: 1}}>
             <Header/>
                 <ScrollView>
                     <View style={styles.container}>
                         <View style={styles.descriptionCont}>
-                            <Text style={styles.title}>Názov</Text>
+                            <Text style={styles.title}>{data.title}</Text>
                             <Text style={styles.description}>
-                                Ponúkam doučovanie matematiky a informatiky. V prílohe prikladám aj dokumenty.
+                                {data.description}
                             </Text>
                         </View>
                         <View>
-                            <Text style={styles.title}>Súbory</Text>
+                            <Text style={styles.title}>Súbory</Text> 
+                            {isLoading ? <ActivityIndicator/> : (
                             <TouchableOpacity style={styles.fileRow}>
-                                <Text style={styles.fileName}>Základy programovanie.pdf</Text>
-                                <Image source={require("doucma/assets/images/file.png")}
-                                    resizeMode="contain"
-                                    style={styles.icon}/>
-                            </TouchableOpacity>
+                                {fileList()}
+                                </TouchableOpacity>
+                            )}
                         </View>
                         <TouchableOpacity style={styles.contact}  onPress={() => navigation.navigate('Chat')}>
                             <Text style={styles.title}>Reagovať</Text>

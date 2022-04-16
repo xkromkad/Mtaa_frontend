@@ -7,7 +7,7 @@ const Feed = (props) => {
     const navigation = useNavigation(); 
     let id = props.id;
     return(
-        <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Detail', {itemId: id})}>
+        <TouchableOpacity style={styles.box} onPress={() => navigation.push('Detail', {itemId: id})}>
             <Text style={styles.title}>
                 {props.title}
             </Text>
@@ -15,9 +15,6 @@ const Feed = (props) => {
                 {props.description}
             </Text>
             <View style={styles.meta}>
-                <Text style={styles.meta_desc}>
-                    Počet súborov: 2
-                </Text>
                 <Text style={styles.meta_desc}>
                     Autor: {props.name} {props.surname}
                 </Text>
