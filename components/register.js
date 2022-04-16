@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-
+import * as asyncStorage from './asyncStorage'
 
 
 export default class Register extends Component {
@@ -29,8 +29,14 @@ export default class Register extends Component {
             'surname': this.state.surname, 'email': this.state.email, 'password': this.state.password},
             }),
           });
-      res = res.headers;
-      console.log(res)
+      let stat = await res.status;
+      if (stat === 200){
+        let token = await res.headers.map.token;
+        await asyncStorage.storeData(this.state.firstname, this.state.surname, this.state.email, token);
+        this.props.navigation.navigate('Home')
+        let data = await asyncStorage.getData()
+        console.log(data[0])
+      }
     } catch(e) {
       console.error(e);
     }

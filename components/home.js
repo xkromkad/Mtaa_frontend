@@ -3,12 +3,13 @@ import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-nativ
 import Footer from "./nav/footer"
 import Header from "./nav/header"
 import Feed from "./feed";
+import Register from './register';
 
 export default function Home() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const getMovies = async () => {
+  const getFeed = async () => {
      try {
       const response = await fetch('http://192.168.0.143:8000/inzeraty');
       const json = await response.json();
@@ -21,12 +22,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    getMovies();
+    getFeed();
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
       <Header/>
+      <Text>Ahoj</Text>
       <View style={{ flex: 1, marginBottom: 70}}>
         {isLoading ? <ActivityIndicator/> : (
           <FlatList
