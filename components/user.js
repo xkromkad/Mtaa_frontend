@@ -1,11 +1,17 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView, ScrollView,  TouchableOpacity } from "react-native";
+import React,{ Component } from "react";
+import { StyleSheet, Text, View, Image,Button, TouchableHighlight, SafeAreaView, ScrollView,  TouchableOpacity } from "react-native";
 import Footer from "./nav/footer";
 import Header from "./nav/header";
 import Feed from "./feed";
 
-export default function User() {
-    return(
+export default class User extends Component  {
+    constructor(props) {
+        super(props);
+        
+     
+      }
+    render() {
+        return(
         <View style={{flex: 1}}>
             <Header/>
                 <ScrollView>
@@ -30,23 +36,32 @@ export default function User() {
                                     resizeMode="contain"
                                     style={styles.icon}/>
                             </TouchableOpacity>
+                          
                         </View>
                         <Text style={styles.name}>Príspevky</Text>
                         <Feed/>
                         <Feed/>
                         <Feed/>
+                        <Button
+                        title={'Odhlásenie'}
+                        style={styles.butt}
+                        onPress={() => this.props.navigation.navigate('Login')}
+                        />
+       
                     </View>
                 </ScrollView>
             <Footer/> 
         </View>
     )
-}
+} }
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'center',
+        paddingBottom: 50,
     },
+   
     profile: {
         marginVertical: 20,
         height: 170,
@@ -59,6 +74,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 20,
+        paddingBottom:30
     },
     iconRow: {
         width: '100%',
@@ -70,4 +86,9 @@ const styles = StyleSheet.create({
         width: 50,
         marginHorizontal: 30,
     },
+    butt:{
+        position:"relative",
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 })
