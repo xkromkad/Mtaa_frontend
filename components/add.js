@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import Header from "./nav/header";
@@ -15,6 +16,7 @@ import * as asyncStorage from './asyncStorage';
 export default function UploadFile() {
   let body = new FormData();
   const [title, setTitle] = React.useState();
+  const [description, setDescription] = React.useState();
 
   async function pickDocument() {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -22,45 +24,66 @@ export default function UploadFile() {
     console.log(result);
     
     body.append('file', {uri: result.uri,name: 'photo.png', type: 'image/png'});
-    body.append('title', 'Fyzika');
-    body.append('description', 'vektory');
    };
 
    async function sendDocument() {
     let data = await asyncStorage.getData()
-    fetch('http://192.168.0.143:8000/inzeraty',{ method: 'POST',headers:{  
+    body.append('title', title);
+    body.append('description', description);
+    if (title.trim()==='' || description.trim()==='') {
+      return
+    }
+    let response = await fetch('http://192.168.0.143:8000/inzeraty',{ method: 'POST',headers:{  
     "Content-Type": "multipart/form-data",
     "otherHeader": "foo",
     "token": data[3],
     } , body: body} )
-    console.log(title)
+    body = new FormData();
+    setTitle('');
+    setDescription('');
+    if (response.status===200) {
+      Alert.alert('Potvrdenie', 'Váš príspevok bol úspešne uverejnený.', [
+        { text: 'OK' },
+      ]);}
+    else {
+      
+    }
   }
 
   return (
     <View style={{flex: 1}}>
       <Header/>
     <View style={styles.background}>
+    <Text style={{fontSize: 30, marginVertical: 20}}>Nový príspevok</Text>
       <Text style={styles.title}>Názov</Text>
-      <View style={styles.button}>
-        <TouchableOpacity>
+      <TextInput
+          onChangeText={(title) => setTitle(title)}
+          value={title}
+          style={styles.input}
+        />
+      <Text style={styles.title}>Popis</Text>
+      <TextInput
+          onChangeText={(description) => setDescription(description)}
+          value={description}
+          style={styles.input}
+        />
+      <Text style={styles.title}>Súbory</Text>
+      <View  style={styles.button_row}>
+        <TouchableOpacity style={{marginHorizontal: 20}}>
           <Button
-            title="upload your file"
-            color="black"
+            style={styles.button}
+            color='green'
+            title="Pridať súbory"
             onPress={pickDocument}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity style={{marginHorizontal: 20}}>
           <Button
-            title="send"
-            color="black"
+            style={styles.button}
+            title="Uverejniť"
             onPress={sendDocument}
           />
         </TouchableOpacity>
-        <TextInput
-        onChangeText={(title) => setTitle(title)}
-        value={title}
-      />
-      <Text>{title}</Text>
       </View>
     </View>
     <Footer/>
@@ -74,7 +97,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    marginHorizontal: 60,
+    marginHorizontal: 20,
+  },
+  button_row: {
+    marginVertical: 25,
+    flexDirection: 'row',
+    flex: 1,
   },
   title: {
     fontSize: 20,

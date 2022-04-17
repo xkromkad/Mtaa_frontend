@@ -57,6 +57,22 @@ export default function Detail({ route }) {
         }
     }
 
+    async function getFile() {
+        try {
+            let res = await fetch('http://192.168.0.143:8000/subor/74', {
+                  method: 'GET',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                });
+            json = await res.json();
+            console.log(json.body)
+            }catch(e) {
+                console.log(e)
+            }
+    }
+
 
     return(
         <View style={{flex: 1}}>
@@ -72,7 +88,7 @@ export default function Detail({ route }) {
                         <View>
                             <Text style={styles.title}>Súbory</Text> 
                             {isLoading ? <ActivityIndicator/> : (
-                            <TouchableOpacity style={styles.fileRow}>
+                            <TouchableOpacity style={styles.fileRow} onPress={getFile}>
                                 {fileList()}
                                 </TouchableOpacity>
                             )}
