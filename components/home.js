@@ -4,6 +4,7 @@ import Footer from "./nav/footer"
 import Header from "./nav/header"
 import Feed from "./feed";
 import Register from './register';
+import * as asyncStorage from './asyncStorage'
 
 export default function Home() {
   const [isLoading, setLoading] = useState(true);

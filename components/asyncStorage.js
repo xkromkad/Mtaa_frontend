@@ -15,7 +15,7 @@ export async function storeData(nm, snm, em, tkn) {
 
 export async function getData() {
     try {
-        return ([name, surname, email])
+        return ([name, surname, email, token])
     } catch (e) {
         console.log("Error Reading in AsyncStorage stroing " + key + " in async Storage")
     }
