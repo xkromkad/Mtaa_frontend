@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Header from "./nav/header";
 import Footer from "./nav/footer";
 
+
 export default function Detail({ route }) {
     const { itemId } = route.params;
     const navigation = useNavigation(); 
@@ -11,6 +12,7 @@ export default function Detail({ route }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [file, setFile] = useState([]);
+    const [image, setImage] = useState([]);
 
   const getDetails = async () => {
      try {
@@ -66,8 +68,10 @@ export default function Detail({ route }) {
                     'Content-Type': 'application/json',
                   },
                 });
-            json = await res.json();
-            console.log(json.body)
+            let json = await res.json();
+            let img = 'data:image/png;base64,'+json.file;
+            setImage(img)
+            console.log(image)
             }catch(e) {
                 console.log(e)
             }
@@ -85,6 +89,7 @@ export default function Detail({ route }) {
                                 {data.description}
                             </Text>
                         </View>
+                        
                         <View>
                             <Text style={styles.title}>Súbory</Text> 
                             {isLoading ? <ActivityIndicator/> : (

@@ -29,7 +29,7 @@ function Footer() {
               style={styles.button}>
             </Image>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('User')}>
+          <TouchableOpacity style={styles.icon} onPress={() => navigation.push('User')}>
             <Image
               source={require("doucma/assets/images/user.png")}
               resizeMode="contain"

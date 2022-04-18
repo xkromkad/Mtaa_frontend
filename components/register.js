@@ -8,6 +8,7 @@ export default class Register extends Component {
     super(props);
    
     this.state = {
+      id: Number,
       firstname: '',
       surname: '',
       email: '',
