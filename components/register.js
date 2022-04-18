@@ -48,10 +48,10 @@ export default class Register extends Component {
       let stat = await res.status;
       if (stat === 200){
         let token = await res.headers.map.token;
-        await asyncStorage.storeData(this.state.firstname, this.state.surname, this.state.email, token);
+        json = await res.json()
+        await asyncStorage.storeData(this.state.firstname, this.state.surname, this.state.email, token, json.id);
         this.props.navigation.navigate('Home')
         let data = await asyncStorage.getData()
-        console.log(data[0])
       }
       else
       {
