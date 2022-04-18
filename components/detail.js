@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from "react";
-import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Button } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import Header from "./nav/header";
 import Footer from "./nav/footer";
 import { EncodingType } from "expo-file-system";
+import * as asyncStorage from './asyncStorage'
 
 
 export default function Detail({ route }) {
@@ -16,10 +17,15 @@ export default function Detail({ route }) {
     const [file, setFile] = useState([]);
     const [image, setImage] = useState([]);
 
+    const [uid, setUid] = useState([]);
+
   const getDetails = async () => {
      try {
       const response = await fetch('http://192.168.0.143:8000/inzeraty/'+itemId);
       const json = await response.json();
+      let userId = await asyncStorage.getData();
+      userId = userId[4];
+      setUid(userId)
       setData(JSON.parse(json.data));
       setFile(JSON.parse(json.file_arr));
     } catch (error) {
@@ -79,6 +85,40 @@ export default function Detail({ route }) {
             }
     }
 
+    async function deleteFeed() {
+        try {
+            let token = await asyncStorage.getData();
+            token = token[3];
+            let res = await fetch('http://192.168.0.143:8000/inzeraty/'+itemId, {
+                  method: 'DELETE',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'token': token,
+                  },
+                });
+            }catch(e) {
+                console.log(e)
+            }
+    }
+
+    function edit() {
+        if (userId === uid) {
+            return(
+            <View style={{flexDirection: 'row', flex: 1}}>
+            <Button
+                title={'Upraviť'}
+                style={styles.butt}
+            />
+            <Button
+                title={'Odstrániť'}
+                style={styles.butt}
+                onPress={deleteFeed}
+            />
+            </View>)
+        }
+    }
+
 
     return(
         <View style={{flex: 1}}>
@@ -100,13 +140,13 @@ export default function Detail({ route }) {
                                 </TouchableOpacity>
                             )}
                         </View>
+                        {edit()}
                         <TouchableOpacity style={styles.contact}  onPress={() => navigation.navigate('Chat')}>
                             <Text style={styles.title}>Reagovať</Text>
                             <Image source={require("doucma/assets/images/chat.png")}
                                     resizeMode="contain"
                                     style={styles.chat}/>
                         </TouchableOpacity>
-                        {edit()}
                     </View>
                 </ScrollView>
             <Footer/>
@@ -153,5 +193,12 @@ const styles = StyleSheet.create({
     },
     chat: {
         width: 50,
+    },
+    butt:{
+        marginHorizontal: 20,
+        paddingTop:20,
+        position:"relative",
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })

@@ -49,12 +49,12 @@ export default function User()  {
         if(feed.length > 0) {
         return feed.map((item) => {
           return (
-            <Feed style={{width: 200}} key={item.id} title={item.title} description={item.description} name={item.name} surname={item.surname} id={item.id}/>
+            <Feed style={{width: 200}} key={item.id} title={item.title} description={item.description} name={item.name} surname={item.surname} id={item.id} uid={item.uid}/>
           )
         }) }
         else {
             return(
-                <Text>Neexistujú žiadne súbory</Text>
+                <Text>Neexistujú žiadne príspevky</Text>
             )
         }
     }
