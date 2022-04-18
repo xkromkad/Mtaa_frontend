@@ -31,8 +31,8 @@ export default function User()  {
          let id = await asyncStorage.getData();
          id = id[4];
          const res = await fetch('http://192.168.0.143:8000/inzeraty/pouzivatelia/'+id);
-         const feed =await  res.json()
-         console.log(feed)
+         const js =await  res.json()
+         setFeed(js)
        } catch (error) {
          console.error(error);
        } finally {
@@ -44,16 +44,12 @@ export default function User()  {
        getUser();
      }, []);
 
-     /*function feedList() {
-        if(file.file_arr.length > 0) {
-        return file.file_arr.map((item) => {
+     function feedList() {
+        
+        if(feed.length > 0) {
+        return feed.map((item) => {
           return (
-            <View  key={item}>
-            <Text style={styles.fileName}>{item}</Text>
-            <Image source={require("doucma/assets/images/file.png")}
-                resizeMode="contain"
-                style={styles.icon}/>
-             </View>
+            <Feed style={{width: 200}} key={item.id} title={item.title} description={item.description} name={item.name} surname={item.surname} id={item.id}/>
           )
         }) }
         else {
@@ -61,7 +57,7 @@ export default function User()  {
                 <Text>Neexistujú žiadne súbory</Text>
             )
         }
-    }*/
+    }
 
     
         return(
@@ -92,9 +88,7 @@ export default function User()  {
                     </View>
                     )}
                         <Text style={styles.name}>Príspevky</Text>
-                    
-                    
-       
+                        {isLoading ? <ActivityIndicator/> : (feedList()) }
                     </View>
                 </ScrollView>
             <Footer/> 
