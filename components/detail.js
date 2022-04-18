@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, Image, TouchableHighlight, SafeAreaView, Scroll
 import { useNavigation } from '@react-navigation/native';
 import Header from "./nav/header";
 import Footer from "./nav/footer";
+import { EncodingType } from "expo-file-system";
 
 
 export default function Detail({ route }) {
     const { itemId } = route.params;
+    const { userId } = route.params
     const navigation = useNavigation(); 
     
     const [isLoading, setLoading] = useState(true);
@@ -104,6 +106,7 @@ export default function Detail({ route }) {
                                     resizeMode="contain"
                                     style={styles.chat}/>
                         </TouchableOpacity>
+                        {edit()}
                     </View>
                 </ScrollView>
             <Footer/>

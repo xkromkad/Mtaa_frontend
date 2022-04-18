@@ -6,8 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 const Feed = (props) => {
     const navigation = useNavigation(); 
     let id = props.id;
+    let uid = props.uid;
+
     return(
-        <TouchableOpacity style={styles.box} onPress={() => navigation.push('Detail', {itemId: id})}>
+        <TouchableOpacity style={styles.box} onPress={() => navigation.push('Detail', {itemId: id, userId: uid})}>
             <Text style={styles.title}>
                 {props.title}
             </Text>

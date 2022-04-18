@@ -35,7 +35,7 @@ export default function Home() {
             data={data}
             keyExtractor={({ id }, index) => id}
             renderItem={({ item }) => (
-              <Feed title={item.title} description={item.description} name={item.name} surname={item.surname} id={item.id}/>
+              <Feed title={item.title} description={item.description} name={item.name} surname={item.surname} id={item.id} uid={item.uid}/>
             )}
           />
         )}
