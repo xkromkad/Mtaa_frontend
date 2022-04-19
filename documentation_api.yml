@@ -1,0 +1,407 @@
+
+openapi: 3.0.0
+info:
+  title: DOKUMENTÁCIA API
+  description: "Dokumentácia API projekt MTAA 2022 \n \nPatrik Kecera & Dávid Kromka"
+  version: 1.0.0
+tags:
+  - name: 'Inzeráty'
+  - name: 'Použivatelia'
+  - name: 'Prihlásenie a registrácia'
+
+paths:
+  /inzeraty:
+    get:
+      tags:
+        - "Inzeráty"
+      summary: Vráti informácie o všetkých inzerátoch
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inzeraty'
+                
+                      
+    post:
+      tags:
+        - "Inzeráty"
+      summary: Vytvorenie nového inzerátu
+      parameters:
+        - name: token
+          in: header
+          description: bearer token
+          required: true
+          schema:
+            $ref: '#/components/schemas/token'  
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized        
+                      
+                      
+  /inzeraty/{inzerat_id}:
+    get:
+      tags:
+        - "Inzeráty"
+      summary: Vráti informácie o konkrétnom inzeráte 
+      parameters:
+        - name: inzerat_id
+          in: path
+          description: ID inzeratu
+          required: true
+          schema:
+            $ref: '#/components/schemas/inzerat_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inzerat'
+                      
+  
+    delete:
+      tags:
+        - "Inzeráty"
+      summary: Vymaže konkrétny inzerát
+      parameters:
+        - name: inzerat_id
+          in: path
+          description: ID inzeratu
+          required: true
+          schema:
+            $ref: '#/components/schemas/inzerat_id'
+        - name: token
+          in: header
+          description: bearer token
+          required: true
+          schema:
+            $ref: '#/components/schemas/token'     
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized   
+           
+    
+    put:
+      tags:
+        - "Inzeráty"
+      summary: Upraví konkrétny inzerát
+      parameters:
+        - name: inzerat_id
+          in: path
+          description: ID inzeratu
+          required: true
+          schema:
+            $ref: '#/components/schemas/inzerat_id'
+        - name: token
+          in: header
+          description: bearer token
+          required: true
+          schema:
+            $ref: '#/components/schemas/token'  
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized    
+          
+  /inzeraty/pouzivatelia/{user_id}:
+    get:
+      tags:
+        - "Inzeráty"
+      summary: Zobrazí inzeráty konkrétneho použivateľa
+      parameters:
+        - name: user_id
+          in: path
+          description: ID použivateľa
+          required: true
+          schema:
+            $ref: '#/components/schemas/user_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inzeraty'
+        
+        
+  /subor/{inzerat_id}: 
+    get:
+      tags:
+        - "Inzeráty"
+      summary: Vráti súbor konkrétneho inzerátu
+      parameters:
+        - name: inzerat_id
+          in: path
+          description: ID inzeratu
+          required: true
+          schema:
+            $ref: '#/components/schemas/inzerat_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subor'
+        '404':
+          description: Not Found
+  
+  /pouzivatelia/{user_id}:
+    get:
+      tags:
+        - "Použivatelia"
+      summary: Vráti údaje o konkrétnom použivateľovi
+      parameters:
+        - name: user_id
+          in: path
+          description: ID použivateľa
+          required: true
+          schema:
+            $ref: '#/components/schemas/user_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                    type: object
+                    properties:
+                      
+                      name:
+                        type: string
+                        format: string
+                        example: Patrik
+                      surname:
+                        type: string
+                        format: string
+                        example: Kecera  
+                      email:
+                        type: string
+                        format: email
+                        example: papo@gmail.com  
+                      photo:
+                        type: string
+                        example: 110aa152-8a94-4e05-a240-1083269c3148.png
+                      file:
+                        type: string
+                        example: 0b1d2bbb-43b6-437a-9aea-7257a7835a3b.png
+    put:
+      tags:
+        - "Použivatelia"
+      summary: Upraví konkrétneho použivateľa
+      parameters:
+        - name: user_id
+          in: path
+          description: ID použivateľa
+          required: true
+          schema:
+            $ref: '#/components/schemas/user_id'
+         
+        - name: token
+          in: header
+          description: bearer token
+          required: true
+          schema:
+            $ref: '#/components/schemas/token' 
+      responses:
+        '200': 
+          description: OK
+        '401': 
+          description: Unauthorized  
+          
+    
+    delete:
+      tags:
+        - "Použivatelia"
+      summary: Vymaže konkrétneho použivateľa
+      parameters:
+        - name: user_id
+          in: path
+          description: ID použivateľa
+          required: true
+          schema:
+            $ref: '#/components/schemas/user_id'
+        - name: token
+          in: header
+          description: bearer token
+          required: true
+          schema:
+            $ref: '#/components/schemas/token' 
+      responses:
+        '200': 
+          description: OK  
+        '401': 
+          description: Unauthorized
+                      
+  /registracia:
+    post:
+      tags:
+        - "Prihlásenie a registrácia"
+      summary: Registruje nového použivateľa a vytvorí token
+      
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 7
+                  token:
+                    type: string
+                    example: jZC04OGI4LTcxMDcwZWE345U3NSIsImVtYWlsIjoiam9obmb
+        '405':
+          description: Method Not Allowed        
+  
+  /prihlasenie:
+    post:
+      tags:
+        - "Prihlásenie a registrácia"
+      summary: Vráti token a informácie o prihlásenom použivateľovi 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: papo@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: papo123
+              required:
+                - email
+                - password
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 7
+                  name:
+                    type: string
+                    format: string
+                    example: Patrik
+                  surname:
+                    type: string
+                    format: string
+                    example: Kecera  
+                  password:
+                    type: string
+                    format: password
+                    example: papo123
+                  token:
+                    type: string
+                    example: jZC04OGI4LTcxMDcwZWE345U3NSIsImVtYWlsIjoiam9obmb
+        '401':
+          description: Unathorized
+                           
+                
+components:
+  schemas:
+    inzeraty:
+      items:
+        properties:
+          name: 
+            type: string
+            example: Patrik
+          surname: 
+            type: string
+            example: Kecera
+          title: 
+            type: string
+            example: Doucovanie matematika
+          description: 
+            type: string
+            example: Doucim vas matematiku zo zakladnej skoly za 5 eur 
+          id:
+            type: integer
+            example: 1  
+          uid:
+            type: integer
+            example: 3  
+            
+          
+    vytvor_inz:
+      properties:
+          name: 
+            type: string
+            example: Patrik
+          surname: 
+            type: string
+            example: Kecera
+          title: 
+            type: string
+            example: Doucovanie matematika
+          description: 
+            type: string
+            example: Doucim vas matematiku zo zakladnej skoly za 5 eur 
+          id:
+            type: integer
+            example: 1  
+          uid:
+            type: integer
+            example: 3  
+        
+
+    inzerat:
+      properties:
+          name: 
+            type: string
+            example: Patrik
+          surname: 
+            type: string
+            example: Kecera
+          title: 
+            type: string
+            example: Doucovanie matematika
+          description: 
+            type: string
+            example: Doucim vas matematiku zo zakladnej skoly za 5 eur 
+          id:
+            type: integer
+            example: 1  
+          uid:
+            type: integer
+            example: 3 
+    
+    subor:
+      properties:
+          file: 
+            type: string
+            example: 0b1d2bbb-43b6-437a-9aea-7257a7835a3b.png
+          
+    
+    inzerat_id:
+      type: integer
+      example: 4   
+      
+    user_id:
+      type: integer
+      example: 2    
+      
+    token:
+      type: string
+      example: jZC04OGI4LTcxMDcwZWE345U3NSIsImVtYWlsIjoiam9obmb
+      
+  
