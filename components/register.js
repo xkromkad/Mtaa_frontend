@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Button, Image, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import * as asyncStorage from './asyncStorage'
+import * as asyncStorage from './asyncStorage';
 
 
 export default class Register extends Component {
@@ -22,7 +22,7 @@ export default class Register extends Component {
     let good = true;
     let good2 = true;
     if (this.state.password !=  this.state.rpassword  ) {
-      this.setState({error: "Hesla nie su rovnake!"});
+      this.setState({error: "Hesla nie sú rovnaké!"});
       good = false;
     }
     else if(this.state.firstname.length == 0 || this.state.firstname.length == 0 ||  this.state.password.length == 0 ||  this.state.rpassword.length == 0)
@@ -34,7 +34,7 @@ export default class Register extends Component {
    {
    
     try {
-      let res = await fetch('http://192.168.0.143:8000/registracia', {
+      let res = await fetch('http://10.10.11.187:8000/registracia', {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -92,7 +92,7 @@ export default class Register extends Component {
     {
       Alert.alert(
         "Chyba",
-        "Vypln vsetky polia!",
+        "Vyplň všetky polia!",
         [
          
           { text: "OK"}

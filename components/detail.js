@@ -102,6 +102,27 @@ export default function Detail({ route }) {
             }
     }
 
+    async function createChat() {
+        try {
+        let token = await asyncStorage.getData();
+            token = token[3];
+            let res = await fetch('http://192.168.0.143:8000/vytvorchat/', {
+                  method: 'POST',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'token': token,
+                  },
+                  body: JSON.stringify({"author": userId, 'user': uid},),
+                });
+                if (res.status===200) {
+                    navigation.navigate('Chat')
+                }
+            }catch(e) {
+                console.log(e)
+            }
+    }
+
     function edit() {
         if (userId === uid) {
             return(
@@ -141,7 +162,7 @@ export default function Detail({ route }) {
                             )}
                         </View>
                         {edit()}
-                        <TouchableOpacity style={styles.contact}  onPress={() => navigation.navigate('Chat')}>
+                        <TouchableOpacity style={styles.contact}  onPress={createChat}>
                             <Text style={styles.title}>Reagovať</Text>
                             <Image source={require("doucma/assets/images/chat.png")}
                                     resizeMode="contain"

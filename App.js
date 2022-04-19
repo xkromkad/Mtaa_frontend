@@ -8,6 +8,7 @@ import User from "./components/user";
 import Detail from "./components/detail";
 import Add from "./components/add";
 import Chat from "./components/chat";
+import Messages from "./components/messages";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App(props) {
         <Stack.Screen name="Detail" component={Detail}/>
         <Stack.Screen name="Add" component={Add}/>
         <Stack.Screen name="Chat" component={Chat}/>
+        <Stack.Screen name="Messages" component={Messages}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

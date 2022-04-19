@@ -15,7 +15,7 @@ function Footer() {
               style={styles.button}>
             </Image>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.icon}>
+          <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Messages')}>
             <Image
               source={require("doucma/assets/images/message.png")}
               resizeMode="contain"

@@ -6,6 +6,7 @@ import Feed from "./feed";
 import * as asyncStorage from './asyncStorage'
 import { useNavigation } from '@react-navigation/native';
 import base64 from 'base-64';
+import * as DocumentPicker from "expo-document-picker";
 
 export default function User()  {
     const navigation = useNavigation(); 
@@ -13,6 +14,8 @@ export default function User()  {
     const [isLoading, setLoading] = React.useState(true);
     const [image, setImage] = useState([]);
     const [feed, setFeed] = useState([]);
+
+    let body = new FormData();
     
     async function logOut() {
         await asyncStorage.storeData('', '', '', '');
@@ -59,6 +62,33 @@ export default function User()  {
         }
     }
 
+    async function pickDocument() {
+        let result = await DocumentPicker.getDocumentAsync({});
+        console.log(result.uri);
+        console.log(result);
+        
+        body.append('file', {uri: result.uri,name: 'photo.png', type: 'image/png'});
+
+        let id = await asyncStorage.getData();
+        id = id[4];
+        let response = await fetch('http://192.168.0.143:8000/pouzivatelia/'+id,
+        { method: 'PUT',headers:{  
+        "Content-Type": "multipart/form-data",
+        "otherHeader": "foo",
+        "token": data[3],
+        } , body: body} )
+        body = new FormData();
+        if (response.status===200) {
+            Alert.alert('Potvrdenie', 'Vaša profilová fotka je zmenená.', [
+              { text: 'OK' },
+            ]);}
+          else {
+            Alert.alert('Chyba', 'Vašu progilovú fotku sa nepodarilo zmeniť.', [
+                { text: 'OK' },
+              ]);
+          }
+       };
+
     
         return(
         <View style={{flex: 1}}>
@@ -68,7 +98,7 @@ export default function User()  {
                     {isLoading ? <ActivityIndicator/> : (
                         <View style={styles.container}>
                         <View style={styles.profile}>
-                        <TouchableOpacity onPress={() => console.log('hi')}>
+                        <TouchableOpacity onPress={pickDocument}>
                         <Image
                             source={{uri: `data:image/png;base64,${image}`}}
                             resizeMode="contain"

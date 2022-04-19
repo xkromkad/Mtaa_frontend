@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import * as asyncStorage from './asyncStorage'
 
 
 export default class Login extends Component {
@@ -11,6 +12,41 @@ export default class Login extends Component {
       password: '',
     };
   }
+
+  async send() {
+    try {
+      let res = await fetch('http://10.10.11.187:8000/prihlasenie', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({'email': this.state.email, 'password': this.state.password},),
+          });
+      let stat = await res.status;
+      if (stat === 200){
+        let token = await res.headers.map.token;
+        json = await res.json()
+        await asyncStorage.storeData(json.name, json.surname, json.email, token, json.id);
+        this.props.navigation.navigate('Home')
+      }
+      else
+      {
+        console.log(stat);
+        Alert.alert(
+          "Chyba",
+          "Nesprávne zadané údaje",
+          [
+           
+            { text: "OK"}
+          ]
+        );
+      }
+      }
+     catch(e) {
+       console.log(e)
+  }
+}
 
   render() {
     return (
@@ -32,7 +68,7 @@ export default class Login extends Component {
         <Button
           title={'Prihlásiť'}
           style={styles.input}
-          onPress={() => this.props.navigation.navigate('Home')}
+          onPress={() => this.send()}
         />
          <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')} style={styles.alreadyLog}>
           <Text>Ste tu nový?</Text>
