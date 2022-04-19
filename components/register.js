@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Button, Image, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as asyncStorage from './asyncStorage';
-
+import {ip} from './ip';
 
 export default class Register extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ export default class Register extends Component {
    {
    
     try {
-      let res = await fetch('http://10.10.11.187:8000/registracia', {
+      let res = await fetch('http://'+ ip + '/registracia', {
             method: 'POST',
             headers: {
               Accept: 'application/json',

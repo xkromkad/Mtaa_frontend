@@ -5,7 +5,7 @@ import Header from "./nav/header";
 import Footer from "./nav/footer";
 import { EncodingType } from "expo-file-system";
 import * as asyncStorage from './asyncStorage'
-
+import {ip} from './ip';
 
 export default function Detail({ route }) {
     const { itemId } = route.params;
@@ -21,7 +21,7 @@ export default function Detail({ route }) {
 
   const getDetails = async () => {
      try {
-      const response = await fetch('http://192.168.0.143:8000/inzeraty/'+itemId);
+      const response = await fetch('http://'+ ip + '/inzeraty/'+itemId);
       const json = await response.json();
       let userId = await asyncStorage.getData();
       userId = userId[4];
@@ -69,7 +69,7 @@ export default function Detail({ route }) {
 
     async function getFile() {
         try {
-            let res = await fetch('http://192.168.0.143:8000/subor/74', {
+            let res = await fetch('http://'+ ip + '/subor/74', {
                   method: 'GET',
                   headers: {
                     Accept: 'application/json',
@@ -89,7 +89,7 @@ export default function Detail({ route }) {
         try {
             let token = await asyncStorage.getData();
             token = token[3];
-            let res = await fetch('http://192.168.0.143:8000/inzeraty/'+itemId, {
+            let res = await fetch('http://'+ ip + '/inzeraty/'+itemId, {
                   method: 'DELETE',
                   headers: {
                     Accept: 'application/json',
@@ -106,7 +106,7 @@ export default function Detail({ route }) {
         try {
         let token = await asyncStorage.getData();
             token = token[3];
-            let res = await fetch('http://192.168.0.143:8000/vytvorchat/', {
+            let res = await fetch('http://'+ ip + '/vytvorchat/', {
                   method: 'POST',
                   headers: {
                     Accept: 'application/json',

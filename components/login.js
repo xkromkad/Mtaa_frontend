@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as asyncStorage from './asyncStorage'
-
+import {ip} from './ip';
 
 export default class Login extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ export default class Login extends Component {
 
   async send() {
     try {
-      let res = await fetch('http://10.10.11.187:8000/prihlasenie', {
+      let res = await fetch('http://' + ip + '/prihlasenie', {
             method: 'POST',
             headers: {
               Accept: 'application/json',

@@ -7,6 +7,7 @@ import * as asyncStorage from './asyncStorage'
 import { useNavigation } from '@react-navigation/native';
 import base64 from 'base-64';
 import * as DocumentPicker from "expo-document-picker";
+import {ip} from './ip';
 
 export default function User()  {
     const navigation = useNavigation(); 
@@ -26,14 +27,14 @@ export default function User()  {
         try {
         let email = await asyncStorage.getData();
         email = email[2];
-         const response = await fetch('http://192.168.0.143:8000/pouzivatelia/'+email);
+         const response = await fetch('http://'+ ip + '/pouzivatelia/'+email);
          const json = await response.json();
          setData(json);
          let img = json.file;
          setImage(img)
          let id = await asyncStorage.getData();
          id = id[4];
-         const res = await fetch('http://192.168.0.143:8000/inzeraty/pouzivatelia/'+id);
+         const res = await fetch('http://'+ ip + '/inzeraty/pouzivatelia/'+id);
          const js =await  res.json()
          setFeed(js)
        } catch (error) {
@@ -71,7 +72,7 @@ export default function User()  {
 
         let id = await asyncStorage.getData();
         id = id[4];
-        let response = await fetch('http://192.168.0.143:8000/pouzivatelia/'+id,
+        let response = await fetch('http://'+ ip + '/pouzivatelia/'+id,
         { method: 'PUT',headers:{  
         "Content-Type": "multipart/form-data",
         "otherHeader": "foo",

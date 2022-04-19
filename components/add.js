@@ -12,7 +12,7 @@ import * as DocumentPicker from "expo-document-picker";
 import Header from "./nav/header";
 import Footer from "./nav/footer";
 import * as asyncStorage from './asyncStorage';
-
+import {ip} from './ip';
 export default function UploadFile() {
   let body = new FormData();
   const [title, setTitle] = React.useState();
@@ -33,7 +33,7 @@ export default function UploadFile() {
     if (title.trim()==='' || description.trim()==='') {
       return
     }
-    let response = await fetch('http://192.168.0.143:8000/inzeraty',{ method: 'POST',headers:{  
+    let response = await fetch('http://'+ ip + '/inzeraty',{ method: 'POST',headers:{  
     "Content-Type": "multipart/form-data",
     "otherHeader": "foo",
     "token": data[3],

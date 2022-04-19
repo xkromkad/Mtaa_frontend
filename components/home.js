@@ -5,6 +5,7 @@ import Header from "./nav/header"
 import Feed from "./feed";
 import Register from './register';
 import * as asyncStorage from './asyncStorage'
+import {ip} from './ip';
 
 export default function Home() {
   const [isLoading, setLoading] = useState(true);
@@ -12,7 +13,7 @@ export default function Home() {
 
   const getFeed = async () => {
      try {
-      const response = await fetch('http://192.168.0.143:8000/inzeraty');
+      const response = await fetch('http://'+ ip + '/inzeraty');
       const json = await response.json();
       setData(json);
     } catch (error) {
