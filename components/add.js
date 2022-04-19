@@ -12,7 +12,8 @@ import * as DocumentPicker from "expo-document-picker";
 import Header from "./nav/header";
 import Footer from "./nav/footer";
 import * as asyncStorage from './asyncStorage';
-import {ip} from './ip';
+
+
 export default function UploadFile() {
   let body = new FormData();
   const [title, setTitle] = React.useState();
@@ -20,10 +21,9 @@ export default function UploadFile() {
 
   async function pickDocument() {
     let result = await DocumentPicker.getDocumentAsync({});
-    console.log(result.uri);
-    console.log(result);
     
     body.append('file', {uri: result.uri,name: 'photo.png', type: 'image/png'});
+    console.log(body)
    };
 
    async function sendDocument() {
@@ -33,6 +33,7 @@ export default function UploadFile() {
     if (title.trim()==='' || description.trim()==='') {
       return
     }
+    const ip = await asyncStorage.getIp();
     let response = await fetch('http://'+ ip + '/inzeraty',{ method: 'POST',headers:{  
     "Content-Type": "multipart/form-data",
     "otherHeader": "foo",

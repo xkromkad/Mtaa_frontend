@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image,Button, TouchableHighlight, SafeAreaView, ScrollView,  TouchableOpacity, ActivityIndicator } from "react-native";
+import { Alert, StyleSheet, Text, View, Image,Button, TouchableHighlight, SafeAreaView, ScrollView,  TouchableOpacity, ActivityIndicator } from "react-native";
 import Footer from "./nav/footer";
 import Header from "./nav/header";
 import Feed from "./feed";
@@ -7,16 +7,15 @@ import * as asyncStorage from './asyncStorage'
 import { useNavigation } from '@react-navigation/native';
 import base64 from 'base-64';
 import * as DocumentPicker from "expo-document-picker";
-import {ip} from './ip';
 
 export default function User()  {
+    let body = new FormData();
     const navigation = useNavigation(); 
     const [data, setData] = React.useState();
     const [isLoading, setLoading] = React.useState(true);
     const [image, setImage] = useState([]);
     const [feed, setFeed] = useState([]);
 
-    let body = new FormData();
     
     async function logOut() {
         await asyncStorage.storeData('', '', '', '');
@@ -25,6 +24,7 @@ export default function User()  {
 
     const getUser = async () => {
         try {
+        const ip = await asyncStorage.getIp();
         let email = await asyncStorage.getData();
         email = email[2];
          const response = await fetch('http://'+ ip + '/pouzivatelia/'+email);
@@ -64,27 +64,27 @@ export default function User()  {
     }
 
     async function pickDocument() {
+        const ip = await asyncStorage.getIp();
         let result = await DocumentPicker.getDocumentAsync({});
-        console.log(result.uri);
-        console.log(result);
-        
-        body.append('file', {uri: result.uri,name: 'photo.png', type: 'image/png'});
+        body.append("file", {uri: result.uri, name: "photo.png", type: "image/png"});
+        console.log(body)
 
         let id = await asyncStorage.getData();
-        id = id[4];
-        let response = await fetch('http://'+ ip + '/pouzivatelia/'+id,
-        { method: 'PUT',headers:{  
+        let response = await fetch('http://'+ ip + '/pouzivatelia/'+id[4],
+        { method: 'POST',headers:{  
         "Content-Type": "multipart/form-data",
         "otherHeader": "foo",
-        "token": data[3],
+        "token": id[3],
         } , body: body} )
         body = new FormData();
         if (response.status===200) {
             Alert.alert('Potvrdenie', 'Vaša profilová fotka je zmenená.', [
               { text: 'OK' },
-            ]);}
-          else {
-            Alert.alert('Chyba', 'Vašu progilovú fotku sa nepodarilo zmeniť.', [
+            ]);
+            navigation.push('User')
+        }
+        else {
+            Alert.alert('Chyba', 'Vašu profilovú fotku sa nepodarilo zmeniť.', [
                 { text: 'OK' },
               ]);
           }

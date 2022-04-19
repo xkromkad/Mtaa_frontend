@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as asyncStorage from './asyncStorage'
-import {ip} from './ip';
 
 export default class Login extends Component {
   constructor(props) {
@@ -15,6 +14,7 @@ export default class Login extends Component {
 
   async send() {
     try {
+      const ip = await asyncStorage.getIp();
       let res = await fetch('http://' + ip + '/prihlasenie', {
             method: 'POST',
             headers: {

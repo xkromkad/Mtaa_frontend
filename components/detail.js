@@ -5,7 +5,6 @@ import Header from "./nav/header";
 import Footer from "./nav/footer";
 import { EncodingType } from "expo-file-system";
 import * as asyncStorage from './asyncStorage'
-import {ip} from './ip';
 
 export default function Detail({ route }) {
     const { itemId } = route.params;
@@ -21,7 +20,9 @@ export default function Detail({ route }) {
 
   const getDetails = async () => {
      try {
-      const response = await fetch('http://'+ ip + '/inzeraty/'+itemId);
+      const ip = await asyncStorage.getIp();
+      console.log(ip)
+      const response = await fetch('http://'+ip+'/inzeraty/'+itemId);
       const json = await response.json();
       let userId = await asyncStorage.getData();
       userId = userId[4];
@@ -69,7 +70,8 @@ export default function Detail({ route }) {
 
     async function getFile() {
         try {
-            let res = await fetch('http://'+ ip + '/subor/74', {
+            const ip = await asyncStorage.getIp();
+            let res = await fetch('http://'+ip+'/subor/'+itemId, {
                   method: 'GET',
                   headers: {
                     Accept: 'application/json',
@@ -87,9 +89,10 @@ export default function Detail({ route }) {
 
     async function deleteFeed() {
         try {
+            const ip = await asyncStorage.getIp();
             let token = await asyncStorage.getData();
             token = token[3];
-            let res = await fetch('http://'+ ip + '/inzeraty/'+itemId, {
+            let res = await fetch('http://'+ip+'/inzeraty/'+itemId, {
                   method: 'DELETE',
                   headers: {
                     Accept: 'application/json',
@@ -104,9 +107,10 @@ export default function Detail({ route }) {
 
     async function createChat() {
         try {
+        const ip = await asyncStorage.getIp();
         let token = await asyncStorage.getData();
             token = token[3];
-            let res = await fetch('http://'+ ip + '/vytvorchat/', {
+            let res = await fetch('http://'+ip+'/vytvorchat', {
                   method: 'POST',
                   headers: {
                     Accept: 'application/json',
