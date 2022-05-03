@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Alert, Button, Image, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Alert, Button, Image, TextInput, View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import * as asyncStorage from './asyncStorage';
-import {ip} from './ip';
 
 export default class Register extends Component {
   constructor(props) {
@@ -34,7 +33,8 @@ export default class Register extends Component {
    {
    
     try {
-      let res = await fetch('http://192.168.43.41:8000/registracia', {
+      const ip = await asyncStorage.getIp();
+      let res = await fetch('http://'+ip+'/registracia', {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -45,7 +45,6 @@ export default class Register extends Component {
             'surname': this.state.surname, 'email': this.state.email, 'password': this.state.password},
             }),
           });
-      console.log('hi')
       let stat = await res.status;
       if (stat === 200){
         let token = await res.headers.map.token;
@@ -108,6 +107,7 @@ export default class Register extends Component {
   }*/
   render() {
     return (
+      <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Doucma</Text>
         <Image source={require("doucma/assets/images/logo.png")}
@@ -157,6 +157,7 @@ export default class Register extends Component {
           <Text>Už ste zaregistrovaný?</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     );
   }
 }
@@ -186,9 +187,10 @@ const styles = StyleSheet.create({
     fontSize: 40,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 60,
   },
   alreadyReg: {
-    marginTop: 30,
+    marginVertical: 30,
     borderRadius: 32,
     borderWidth: 1,
     padding: 5,

@@ -3,7 +3,7 @@ let surname = '';
 let email = '';
 let token = '';
 var id;
-const ip = '192.168.0.102:8000'
+const ip = '192.168.43.41:8000'
 export async function storeData(nm, snm, em, tkn, uid) {
     try {
         name = nm;

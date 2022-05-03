@@ -100,6 +100,7 @@ export default function Detail({ route }) {
                     'token': token,
                   },
                 });
+                navigation.push('User')
             }catch(e) {
                 console.log(e)
             }
@@ -120,12 +121,12 @@ export default function Detail({ route }) {
                   body: JSON.stringify({"author": userId, 'user': uid},),
                 });
                 if (res.status===200) {
-                    navigation.navigate('Chat')
+                    navigation.push('Chat')
                 }
             }catch(e) {
                 console.log(e)
             }
-    }
+    } 
 
     function edit() {
         if (userId === uid) {

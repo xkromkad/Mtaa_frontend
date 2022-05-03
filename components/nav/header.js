@@ -1,20 +1,40 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableHighlight} from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import * as asyncStorage from '../asyncStorage';
+import { useNavigation } from '@react-navigation/native';
 
 function Header() {
+    const [shouldShow, setShouldShow] = useState(true);
+    const [searchInput, setSearchInput] = useState('');
+    const [data, setData] = useState([]);
+    const navigation = useNavigation(); 
+
+    async function show () {
+        if (searchInput.trim() === '') {
+            setShouldShow(!shouldShow)
+        }
+        else {
+            navigation.push('Search', {searchInput: searchInput})
+        }
+    }
     return(
         <SafeAreaView style={styles.header} edges={['top', 'left', 'right']}>
                 <View style={styles.row}>
-                    <Text style={styles.title}>Doucma</Text>
+                    {shouldShow ? (<Text style={styles.title}>Doucma</Text>) : null}
                     <Image  source={require("doucma/assets/images/logo.png")}
                         resizeMode="contain"
                         style={styles.logo}/>
-                    <TouchableHighlight style={styles.icon}>
+                    {shouldShow ? null : 
+                    <TextInput 
+                    style={styles.input}
+                    value={searchInput}
+                    onChangeText={(search) => setSearchInput(search)}></TextInput>}
+                    <TouchableOpacity style={styles.icon} onPress={show}>
                         <Image source={require("doucma/assets/images/search.png")}
                             resizeMode="contain"
                             style={styles.search}/>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
         </SafeAreaView>
     )
@@ -49,5 +69,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         marginRight: 50
-    }
+    },
+    input: {
+        width: '50%',
+        borderWidth: 2,
+        borderRadius: 20,
+        borderColor: 'black',
+      }
 })

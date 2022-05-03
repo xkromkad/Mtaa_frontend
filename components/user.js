@@ -98,12 +98,12 @@ export default function User()  {
                     <View style={styles.container}>
                     {isLoading ? <ActivityIndicator/> : (
                         <View style={styles.container}>
-                        <View style={styles.profile}>
+                        <View>
                         <TouchableOpacity onPress={pickDocument}>
                         <Image
                             source={{uri: `data:image/png;base64,${image}`}}
                             resizeMode="contain"
-                            style={{width: 180, height: 180}}/>
+                            style={[{width: 180, height: 180}, styles.profile]}/>
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.name}>{data.name} {data.surname}</Text>
@@ -121,6 +121,7 @@ export default function User()  {
                         <Text style={styles.name}>Príspevky</Text>
                         {isLoading ? <ActivityIndicator/> : (feedList()) }
                     </View>
+                    <View style={{marginBottom: 50}}></View>
                 </ScrollView>
             <Footer/> 
         </View>
@@ -142,7 +143,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',  
         borderColor: 'black',
         borderWidth: 1,
-        borderRadius: 20,
     },
     name: {
         fontSize: 20,

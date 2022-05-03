@@ -1,8 +1,9 @@
-import * as React from "react";
+import React,  {useEffect } from "react";
 import { StyleSheet, View, Image, TouchableHighlight, SafeAreaView, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import Footer from "./nav/footer";
 import Header from "./nav/header";
+
 
 export default function Chat() {
 
@@ -12,9 +13,11 @@ export default function Chat() {
                 <View style={styles.container}>
                     <View style={styles.row}>
                         <Text style={styles.name}>Meno Priezvisko</Text>
-                        <Image source={require("doucma/assets/images/call.png")}
-                                    resizeMode="contain"
-                                    style={styles.icon}/>
+                        <TouchableOpacity>
+                            <Image source={require("doucma/assets/images/call.png")}
+                                        resizeMode="contain"
+                                        style={styles.icon}/>
+                        </TouchableOpacity>
                     </View>
                 </View>
             <Footer/>
