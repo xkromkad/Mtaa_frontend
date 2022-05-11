@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Button, Image, TextInput, View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import * as asyncStorage from './asyncStorage';
+import * as Network from 'expo-network';
 
 export default class Register extends Component {
   constructor(props) {
@@ -33,6 +34,9 @@ export default class Register extends Component {
    {
    
     try {
+      if (!(await Network.getNetworkStateAsync()).isInternetReachable) {
+        return
+      }
       const ip = await asyncStorage.getIp();
       let res = await fetch('http://'+ip+'/registracia', {
             method: 'POST',
@@ -51,7 +55,6 @@ export default class Register extends Component {
         json = await res.json()
         await asyncStorage.storeData(this.state.firstname, this.state.surname, this.state.email, token, json.id);
         this.props.navigation.navigate('Home')
-        let data = await asyncStorage.getData()
       }
       else
       {
@@ -115,7 +118,7 @@ export default class Register extends Component {
                                     style={styles.logo}/>
         <Text style={styles.txt}>Meno</Text>
         <TextInput
-          value={this.state.name}
+          value={this.state.firstname}
           onChangeText={(firstname) => this.setState({ firstname })}
           style={styles.input}
         />

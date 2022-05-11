@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, Button, TextInput, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as asyncStorage from './asyncStorage'
+import * as Network from 'expo-network';
 
 export default class Login extends Component {
   constructor(props) {
@@ -14,6 +15,9 @@ export default class Login extends Component {
 
   async send() {
     try {
+      if (!(await Network.getNetworkStateAsync()).isInternetReachable) {
+        return
+      }
       const ip = await asyncStorage.getIp();
       let res = await fetch('http://' + ip + '/prihlasenie', {
             method: 'POST',
