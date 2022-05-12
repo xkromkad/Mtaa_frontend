@@ -24,7 +24,7 @@ export default function Footer() {
       if ((await FileSystem.getInfoAsync(toDelete)).exists) {
         deleteArray = await FileSystem.readAsStringAsync(toDelete)
       }
-      if (profileToSet !== undefined) {
+      if (profileToSet !== 'undefined') {
         let body = new FormData()
         body.append("file", {uri: profileToSet, name: "photo.png", type: "image/png"})
         console.log(profileToSet)
@@ -38,7 +38,7 @@ export default function Footer() {
         } , body: body} )
         FileSystem.deleteAsync(waitprofile)
       }
-      if (feedToAdd !== undefined) {
+      if (feedToAdd !== 'undefined') {
         let body = new FormData()
         let feed = JSON.parse(feedToAdd)
         let data = await asyncStorage.getData();
@@ -57,7 +57,7 @@ export default function Footer() {
 
         FileSystem.deleteAsync(waitfeed)
       }
-      if (toDelete!== undefined) {
+      if (typeof deleteArray !== 'undefined') {
         const ip = await asyncStorage.getIp();
         let token = await asyncStorage.getData();
         token = token[3];

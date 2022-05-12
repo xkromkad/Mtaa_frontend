@@ -191,10 +191,6 @@ export default function Detail({ route }) {
             return(
             <View style={{flexDirection: 'row', flex: 1}}>
             <Button
-                title={'Upraviť'}
-                style={styles.butt}
-            />
-            <Button
                 title={'Odstrániť'}
                 style={styles.butt}
                 onPress={deleteFeed}
